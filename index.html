@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <script src="js/jquery-2.1.3.min.js"></script>
+    <link rel="stylesheet" href="css/sample.css">
+    <title>じゃんけん</title>
+</head>
+
+<body>
+
+    <header>
+        <h1>じゃんけん</h1>
+        <!-- <ul>
+            <li id="kaidan">
+                <img id="kaidan_pic" src="kaidan.png" alt="" width="60" height="60" >
+            </li>
+            <li id="kaidan">
+                <img id="kaidan_pic" src="kaidan.png" alt="" width="60" height="60" >
+            </li>
+            <li id="kaidan">
+                <img id="kaidan_pic" src="kaidan.png" alt="" width="60" height="60" >
+            </li>
+        </ul>
+         -->
+    </header>
+
+    <main>
+        
+        <ul>
+            <li id="gu_btn">
+                <img class="gu_pic" src="janken_gu_illust.png" alt="" width="60" height="60">
+            </li>
+            <!-- <div class="btn" onclick="audio()">音がなるよ!!</div> -->
+            <li id="cho_btn">
+                <img class="cho_pic" src="yubi_peace_illust.png" alt="" width="60" height="60">
+            </li>
+            <li id="par_btn">
+                <img class="par_pic" src="janken_hand_illust.png" alt="" width="60" height="60">
+            </li>
+        </ul>
+        <div>コンピュータの出した手は？「<span id="pc_hands">なに？</span>」</div>
+        <div id="judgment">勝ち</div>
+        <div>あなたのかったかいすう「<textContent id="youwin">0</textContent>」</div>
+        <div>コンピュータのかったかいすう「<span id="comwin">0</span>」</div>
+            <!-- <audio id="btn_audio">
+            <source src="Rock.mp3" type="audio/mp3">
+            </audio> -->
+        <audio id="overSound" preload="auto">
+          <source src="Rock.mp3" type="audio/mp3">
+              <!-- <source src="sound.ogg" type="audio/ogg">
+              <source src="sound.wav" type="audio/wav">
+              <p>※お使いのブラウザはHTML5のaudio要素をサポートしていないので音は鳴りません。</p> -->
+        </audio>
+        <audio id="scissorsSound" preload="auto">
+          <source src="scissors.mp3" type="audio/mp3">            
+        </audio>
+        <audio id="paperSound" preload="auto">
+          <source src="paper.mp3" type="audio/mp3">            
+        </audio>
+         
+        <!-- セーブ機能をつける -->
+        <textarea name="" id="text_area" cols="100" rows="10" >勝った回数を記録しよう！</textarea>
+        <ul>
+            <li id="save">Save</li>
+            <li id="clear">Clear</li>
+        </ul>
+       
+
+
+    </main>
+
+    <footer></footer>
+    <script>
+    const youwin = document.querySelector("#youwin");
+    const comwin = document.querySelector("#comwin");
+    let winCount = 0
+    let loseCount = 0
+    
+    $(function(){
+      //音を鳴らす
+      $('#gu_btn').click(function(){
+      document.getElementById("overSound").currentTime = 0;
+      document.getElementById("overSound").play();
+      });
+    });
+    $(function(){
+      //音を鳴らす
+      $('#cho_btn').click(function(){
+      document.getElementById("scissorsSound").currentTime = 0;
+      document.getElementById("scissorsSound").play();
+      });
+    });
+    $(function(){
+      //音を鳴らす
+      $('#par_btn').click(function(){
+      document.getElementById("paperSound").currentTime = 0;
+      document.getElementById("paperSound").play();
+      });
+    });
+    $("#gu_btn").on("click",function(){
+        function audio() {
+        document.getElementById('btn_audio').currentTime = 0; //連続クリックに対応
+        document.getElementById('btn_audio').play(); //クリックしたら音を再生
+        }
+        const r =Math.ceil(Math.random()*3);
+        let view = "";
+        if(r==1){
+            view = 'グー';
+        }
+        if(r==2){
+            view = 'チョキ';
+        }
+        if(r==3){
+            view = 'パー';
+        }
+        $("#pc_hands").html(view);
+        //ここからジャッジを作る
+        let judge = "";
+        if(view=="グー"){
+            judge = 'あいこ';
+        }
+        if(view=="チョキ"){
+            judge = 'かち';
+            winCount++;
+            //勝った回数をテキストに表示
+            youwin.textContent=winCount;
+        }
+        if(view=="パー"){
+            judge = 'まけ';
+            loseCount++;
+            //負けた回数をテキストに表示
+            comwin.textContent=loseCount;
+        }
+        $("#judgment").html(judge);
+        
+    });
+    $("#cho_btn").on("click",function(){
+        const r =Math.ceil(Math.random()*3);
+        let view = "";
+        if(r==1){
+            view = 'グー';
+        }
+        if(r==2){
+            view = 'チョキ';
+        }
+        if(r==3){
+            view = 'パー';
+        }
+        $("#pc_hands").html(view);
+        //ここからジャッジを作る
+        let judge = "";
+        if(view=="グー"){
+            judge = 'まけ';
+            loseCount++;
+            //負けた回数をテキストに表示
+            comwin.textContent=loseCount;
+        }
+        if(view=="チョキ"){
+            judge = 'あいこ';
+        }
+        if(view=="パー"){
+            judge = 'かち';
+            winCount++;
+            //勝った回数をテキストに表示
+            youwin.textContent=winCount;
+        }
+        $("#judgment").html(judge);
+    });
+    $("#par_btn").on("click",function(){
+        const r =Math.ceil(Math.random()*3);
+        let view = "";
+        if(r==1){
+            view = 'グー';
+        }
+        if(r==2){
+            view = 'チョキ';
+        }
+        if(r==3){
+            view = 'パー';
+        }
+        $("#pc_hands").html(view);
+        //ここからジャッジを作る
+        let judge = "";
+        if(view=="グー"){
+            judge = 'かち';
+            winCount++;
+            //勝った回数をテキストに表示
+            youwin.textContent=winCount;
+        }
+        if(view=="チョキ"){
+            judge = 'まけ';
+            loseCount++;
+            //負けた回数をテキストに表示
+            comwin.textContent=loseCount;
+        }
+        if(view=="パー"){
+            judge = 'あいこ';
+        }
+        $("#judgment").html(judge);
+
+    });
+    
+    function display(){
+      gu_btn.disabled=true;
+      cho_btn.disabled=true;
+      par_btn.disabled=true;
+    }
+    $("#save").on("click",function(){
+     const value =$("#text_area").val();
+     localStorage.setItem("memo",value);
+     alert("セーブしました");
+    });
+    $("#clear").on("click",function(){
+     localStorage.removeItem("memo");
+     alert("クリアしました");
+     $("#text_area").val("");
+    });
+    if(localStorage.getItem("memo")){
+        const value = localStorage.getItem("memo");
+        $("#text_area").val(value);
+    }
+
+    </script>
+</body>
+
+</html>
